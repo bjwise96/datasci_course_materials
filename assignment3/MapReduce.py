@@ -2,6 +2,10 @@ import json
 
 class MapReduce:
     def __init__(self):
+        """
+
+        :rtype : object
+        """
         self.intermediate = {}
         self.result = []
 

@@ -1,0 +1,53 @@
+import sys
+import json
+
+def hw():
+    print 'Hello, world!'
+
+def lines(fp):
+    print str(len(fp.readlines()))
+
+def build_sent_dict(read_file):
+  scores = {}
+  pos_words = []
+  neg_words = []
+  for line in read_file:
+    term, score = line.split("\t")
+    scores[term] = int(score)
+    if int(score) > 0:
+      pos_words.append(term)
+      print "pos word: " + term
+    else: 
+      neg_words.append(term)
+      print "neg word: " + term
+  return scores, pos_words, neg_words
+
+def get_tweet_words(in_file):
+    word_list = []
+    for line in in_file:
+       tweet = json.loads(line)
+       if "text" in tweet:
+         word_list.extend(tweet["text"].split())
+    uniq_words = uniq(word_list)
+    return uniq_words
+
+def uniq(input):
+  output = []
+  for x in input:
+    if x not in output:
+      output.append(x)
+      #print x
+  return output       
+
+
+def main():
+    sent_file = open(sys.argv[1])
+    sent_dict, pos_words, neg_words = build_sent_dict(sent_file)
+    tweet_file = open(sys.argv[2])
+    tweet_word_list = get_tweet_words(tweet_file)
+    hw()
+    lines(sent_file)
+    lines(tweet_file)
+
+if __name__ == '__main__':
+    main()
